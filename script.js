@@ -1,5 +1,7 @@
 const apiUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index';
+const tagsInput = document.getElementById('tagsInput');
 let currentPage = 1;
+
 
 document.getElementById('searchForm').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -34,11 +36,19 @@ function fetchImages(tags, page = 1) {
         if (page === 1) gallery.innerHTML = '';
 
         Array.from(posts).forEach(post => {
-            const imageUrl = post.getAttribute('file_url');
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            img.alt = 'Rule34 Image';
-            gallery.appendChild(img);
+            const thumnailUrl = post.getAttribute('preview_url');
+            const fullImageUrl = post.getAttribute('file_url');
+
+           const img = document.createElement('img');
+           img.src = thumnailUrl;
+           img.alt = 'Rule34 Thumbnail';
+           img.loading = 'lazy';
+
+           img.addEventListener('click', () => {
+            img.src = fullImageUrl;
+           });
+
+           gallery.appendChild(img);
         });
 
         loadMoreBtn.style.display = posts.length > 0 ? 'block' : 'none';
@@ -57,3 +67,5 @@ function changercouleur() {
     image.style.opacity = "0";
     setTimeout(() => image.style.display = "none", 500);
 }
+
+
