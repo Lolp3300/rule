@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule34</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1><imageviewer</h1>
+        <a href="index.html">Retour gallery</a>
+    </header>
+    <main id="imageContainer">
+
+    </main>
+    <script>
+
+        const params = new URLSearchParams(window.location.search);
+        const imageUrl = params.get('image');
+
+        if (imageUrl) {
+            const img = document.createElement('img');
+            img.src = decodeURIComponent(imageUrl);
+            img.alt = 'Rule34 Image';
+
+            const container = document.getElementById('imageContainer');
+            container.appendChild(img);
+        } else {
+            const container = document.getElementById('imageContainer');
+            container.innerHTML = '<p>Aucune image sélectionner</p>';
+        }
+    </script>
+</body>
+</html>

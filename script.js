@@ -39,16 +39,17 @@ function fetchImages(tags, page = 1) {
             const thumnailUrl = post.getAttribute('preview_url');
             const fullImageUrl = post.getAttribute('file_url');
 
+            const link = document.createElement('a');
+            link.href = `view.html?image=${encodeURIComponent(fullImageUrl)}`;
+            link.target = '_self';
+
            const img = document.createElement('img');
            img.src = thumnailUrl;
            img.alt = 'Rule34 Thumbnail';
            img.loading = 'lazy';
 
-           img.addEventListener('click', () => {
-            img.src = fullImageUrl;
-           });
-
-           gallery.appendChild(img);
+           link.appendChild(img)
+           gallery.appendChild(link);
         });
 
         loadMoreBtn.style.display = posts.length > 0 ? 'block' : 'none';
@@ -66,6 +67,8 @@ function changercouleur() {
     texte.style.color = "transparent";
     image.style.opacity = "0";
     setTimeout(() => image.style.display = "none", 500);
+    setTimeout(() => texte.style.display = "none", 500);
+    
 }
 
 
