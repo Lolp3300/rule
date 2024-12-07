@@ -7,29 +7,54 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1><imageviewer</h1>
-        <a href="index.html">Retour gallery</a>
+    <header class="top-bar">
+        <h1>Rule34</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="#" id="lastSearchLink" class="hidden"></a></li>
+                <li><a href="view.html">Voir image</a></li>
+            </ul>
+        </nav>
     </header>
     <main id="imageContainer">
+        
 
+    </main>
+    <main id="viewer">
+        
     </main>
     <script>
 
         const params = new URLSearchParams(window.location.search);
         const imageUrl = params.get('image');
+        const fileType = params.get('type');
+        const fileUrl = params.get('file');
 
-        if (imageUrl) {
-            const img = document.createElement('img');
-            img.src = decodeURIComponent(imageUrl);
-            img.alt = 'Rule34 Image';
+    const viewer = document.getElementById('viewer');
 
-            const container = document.getElementById('imageContainer');
-            container.appendChild(img);
-        } else {
-            const container = document.getElementById('imageContainer');
-            container.innerHTML = '<p>Aucune image sélectionner</p>';
-        }
+    if (fileUrl && fileType) {
+      if (fileType === 'video') {
+        // Affiche une vidéo
+        const video = document.createElement('video');
+        video.src = decodeURIComponent(fileUrl);
+        video.controls = true;
+        video.style.maxWidth = '100%';
+        viewer.appendChild(video);
+      } else if (fileType === 'image') {
+        // Affiche une image
+        const img = document.createElement('img');
+        img.src = decodeURIComponent(fileUrl);
+        img.alt = 'Image';
+        img.style.maxWidth = '100%';
+        viewer.appendChild(img);
+      } else {
+        viewer.innerHTML = '<p>Type de fichier inconnu.</p>';
+      }
+    } else {
+      viewer.innerHTML = '<p>Aucun fichier sélectionné.</p>';
+    }
+
     </script>
 </body>
 </html>

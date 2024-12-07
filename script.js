@@ -3,12 +3,15 @@ const tagsInput = document.getElementById('tagsInput');
 let currentPage = 1;
 
 
+
 document.getElementById('searchForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const tags = document.getElementById('tagsInput').value.trim();
+    topbar.classList.remove('hidden');
     currentPage = 1;
     fetchImages(tags);
 });
+
 
 document.getElementById('loadMoreBtn').addEventListener('click', () => {
     const tags = document.getElementById('tagsInput').value.trim();
@@ -38,14 +41,18 @@ function fetchImages(tags, page = 1) {
         Array.from(posts).forEach(post => {
             const thumnailUrl = post.getAttribute('preview_url');
             const fullImageUrl = post.getAttribute('file_url');
+            const isVideo = /\.(mp4|webm|avi)$/.test(fullImageUrl);
 
             const link = document.createElement('a');
             link.href = `view.html?image=${encodeURIComponent(fullImageUrl)}`;
+            link.href = `view.html?file=${encodeURIComponent(fullImageUrl)}&type=${isVideo ? 'video' : 'image'}`;
             link.target = '_self';
 
            const img = document.createElement('img');
            img.src = thumnailUrl;
            img.alt = 'Rule34 Thumbnail';
+           img.loading = 'lazy';
+           img.alt = isVideo ? 'Vidéo' : 'Image';
            img.loading = 'lazy';
 
            link.appendChild(img)
@@ -66,9 +73,15 @@ function changercouleur() {
     const texte = document.getElementById('orange');
     texte.style.color = "transparent";
     image.style.opacity = "0";
+
     setTimeout(() => image.style.display = "none", 500);
     setTimeout(() => texte.style.display = "none", 500);
     
+    
 }
 
+const topbar = document.getElementById('topbar');
+
+
+    
 
