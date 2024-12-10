@@ -89,8 +89,6 @@ display: none;
     transition: transform 0.2s;
 }
 
-
-
 button {
     background-color: #4CAF50;
     color: white;
@@ -106,3 +104,77 @@ button:hover {
     background-color: #45a049;
 }
 
+/* Conteneur principal pour les tags */
+#tagsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Grille responsive */
+    gap: 15px;
+    padding: 20px;
+    text-align: left;
+  }
+  
+  /* Style pour chaque tag */
+  #tagsContainer div {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, background-color 0.3s;
+    text-align: center;
+  }
+  
+  /* Animation au survol des tags */
+  #tagsContainer div:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.05);
+  }
+  
+  /* Lien des tags */
+  #tagsContainer div a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  /* Style des tags au survol */
+  #tagsContainer div a:hover {
+    color: #ff5722;
+    text-decoration: underline;
+  }
+  
+  /* Chargement des tags */
+  #tagsContainer p {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+    font-style: italic;
+  }
+  
+  #paginationContainer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  #paginationContainer button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #paginationContainer button:hover {
+    background-color: #45a049;
+  }
+  
+  #paginationContainer button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
