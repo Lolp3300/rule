@@ -1,93 +1,93 @@
-const apiUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100';
-const tagsContainer = document.getElementById('tagsContainer');
-const paginationContainer = document.createElement('div');
-paginationContainer.id = 'paginationContainer';
-document.body.appendChild(paginationContainer); // Ajout du conteneur de pagination après la liste des tags
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const page = parseInt(params.get('page')) || 0; // Page actuelle (par défaut : 0)
+  const limit = 20; // Nombre de tags par page
+  const apiUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index';
+  const tagsContainer = document.getElementById('tagsContainer');
+  const paginationContainer = document.getElementById('paginationContainer');
 
-let currentPage = 1; // Page actuelle
-const tagsPerPage = 20; // Nombre de tags par page
-let allTags = []; // Tous les tags extraits
+  // Fonction pour charger les tags avec pagination
+  function loadTags(page) {
+    tagsContainer.innerHTML = '<p>Chargement des tags...</p>';
+    const url = `${apiUrl}&limit=${limit}&pid=${page}`;
 
-// Fonction pour afficher les tags pour la page actuelle
-function displayTags() {
-  const startIndex = (currentPage - 1) * tagsPerPage;
-  const endIndex = currentPage * tagsPerPage;
-  const tagsToShow = allTags.slice(startIndex, endIndex);
-
-  tagsContainer.innerHTML = ''; // Vide le conteneur des tags
-  tagsToShow.forEach(([tagName, tagCount]) => {
-    const tagElement = document.createElement('div');
-    tagElement.innerHTML = `<a href="index.html?tag=${encodeURIComponent(tagName)}">${tagName}</a> (${tagCount})`;
-    tagsContainer.appendChild(tagElement);
-  });
-
-  updatePagination(); // Met à jour la pagination
-}
-
-// Fonction pour mettre à jour les boutons de pagination
-function updatePagination() {
-  paginationContainer.innerHTML = ''; // Vide le conteneur de pagination
-  const totalPages = Math.ceil(allTags.length / tagsPerPage);
-
-  for (let i = 1; i <= totalPages; i++) {
-    const pageButton = document.createElement('button');
-    pageButton.textContent = i;
-    pageButton.disabled = i === currentPage; // Désactive le bouton de la page actuelle
-    pageButton.addEventListener('click', () => {
-      currentPage = i;
-      displayTags();
-    });
-    paginationContainer.appendChild(pageButton);
-  }
-}
-
-// Fonction pour charger les tags depuis l'API
-function loadGeneralTags() {
-  tagsContainer.innerHTML = '<p>Chargement des tags...</p>';
-
-  fetch(apiUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
-      }
-      return response.text();
-    })
-    .then(data => {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(data, 'application/xml');
-      const posts = Array.from(xmlDoc.getElementsByTagName('post'));
-
-      if (posts.length === 0) {
-        tagsContainer.innerHTML = '<p>Aucun post trouvé.</p>';
-        return;
-      }
-
-      // Extraire et compter les tags
-      const tagCounts = {};
-      posts.forEach(post => {
-        const tags = post.getAttribute('tags');
-        if (tags) {
-          tags.split(' ').forEach(tag => {
-            if (!tagCounts[tag]) {
-              tagCounts[tag] = 0;
-            }
-            tagCounts[tag]++;
-          });
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
         }
+        return response.text();
+      })
+      .then(data => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data, 'application/xml');
+        const posts = Array.from(xmlDoc.getElementsByTagName('post'));
+
+        if (posts.length === 0) {
+          tagsContainer.innerHTML = '<p>Aucun tag trouvé.</p>';
+          paginationContainer.innerHTML = '';
+          return;
+        }
+
+        // Extraire et compter les tags
+        const tagCounts = {};
+        posts.forEach(post => {
+          const tags = post.getAttribute('tags');
+          if (tags) {
+            tags.split(' ').forEach(tag => {
+              if (!tagCounts[tag]) {
+                tagCounts[tag] = 0;
+              }
+              tagCounts[tag]++;
+            });
+          }
+        });
+
+        // Trier les tags par popularité
+        const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
+        // Afficher les tags
+        tagsContainer.innerHTML = '';
+        sortedTags.forEach(([tagName, tagCount]) => {
+          const tagElement = document.createElement('div');
+          tagElement.innerHTML = `<a href="tag-results.html?tag=${encodeURIComponent(tagName)}">${tagName}</a> (${tagCount})`;
+          tagsContainer.appendChild(tagElement);
+        });
+
+        // Mettre à jour la pagination
+        updatePagination(page);
+      })
+      .catch(error => {
+        console.error('Erreur lors du chargement des tags :', error);
+        tagsContainer.innerHTML = '<p>Erreur lors de la récupération des tags.</p>';
       });
+  }
 
-      // Convertir en tableau trié par popularité
-      allTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+  // Fonction pour mettre à jour la pagination
+  function updatePagination(currentPage) {
+    paginationContainer.innerHTML = ''; // Vide les boutons existants
 
-      // Afficher les tags pour la première page
-      displayTags();
-    })
-    .catch(error => {
-      console.error('Erreur lors du chargement des tags :', error);
-      tagsContainer.innerHTML = '<p>Erreur lors de la récupération des tags.</p>';
+    // Calculer les pages de pagination
+    const prevPage = currentPage - 1;
+    const nextPage = currentPage + 1;
+
+    const prevButton = document.createElement('button');
+    prevButton.textContent = 'Précédent';
+    prevButton.disabled = currentPage === 0;
+    prevButton.addEventListener('click', () => {
+      window.location.href = `tags.html?page=${prevPage}`;
     });
-}
+    paginationContainer.appendChild(prevButton);
 
-// Charger les tags au chargement de la page
-document.addEventListener('DOMContentLoaded', loadGeneralTags);
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Suivant';
+    nextButton.addEventListener('click', () => {
+      window.location.href = `tags.html?page=${nextPage}`;
+    });
+    paginationContainer.appendChild(nextButton);
+  }
+
+  // Charger les tags pour la page actuelle
+  loadTags(page);
+});
 
