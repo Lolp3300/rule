@@ -177,4 +177,59 @@ button:hover {
     background-color: #ccc;
     cursor: not-allowed;
   }
+
+  .quests-container {
+    display: flex; /* Disposition des items */
+    flex-direction: column; /* Aligne les conteneurs verticalement */
+    gap: 20px; /* Espace entre chaque conteneur */
+  }
+  
+  .quest {
+    display: flex; /* Place l'image et le texte en ligne */
+    align-items: center; /* Centre verticalement l'image et le texte */
+    gap: 20px; /* Ajoute de l'espace entre l'image et le texte */
+    width: 100%; /* Largeur totale du conteneur */
+    max-width: 600px; /* Largeur maximale du conteneur */
+  }
+  
+  .quest img {
+    width: 150px; /* Largeur de l'image */
+    height: 150px; /* Hauteur de l'image */
+    object-fit: cover; /* Ajuste l'image sans déformation */
+    border-radius: 10%;
+    margin-left: 200px;
+    margin-bottom: 20px; /* Coins arrondis */
+  }
+  
+  .questtext {
+    flex: 1; /* Le texte occupe tout l'espace restant */
+    color: #333; /* Couleur du texte */
+    font-size: 16px; /* Taille du texte */
+    line-height: 1.5; /* Espacement entre les lignes */
+    text-align: left; /* Aligne le texte à gauche */
+  }
+  /* Style de base des images */
+  .zoomable {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10%;
+    cursor: pointer; /* Indique que l'image est cliquable */
+    filter: grayscale(100%) blur(10px); /* Noir et blanc + flou */
+    transition: filter 0.3s ease, transform 0.3s ease; /* Animation fluide pour les effets */
+  }
+  
+  .zoomable:hover {
+    filter: grayscale(100%) blur(10px); /* Supprime le flou et le noir et blanc au survol */
+  }
+  
+  .zoomable.zoomed {
+    transform: scale(2); /* Agrandit l'image au clic */
+    z-index: 100; /* Place l'image au-dessus des autres */
+    position: relative; /* Nécessaire pour z-index */
+    filter: grayscale(100%) blur(10px); /* Supprime les effets en mode zoom */
+  }
+  
+  
+
   
