@@ -17,6 +17,7 @@
                 <li><a href="random.html">random image</a></li>
                 <li><a href="tags.html" class="active">Tags</a></li>
                 <li><a href="quest.html">quest</a></li>
+                <li><a href="tags.php">test</a></li>
             </ul>
         </nav>
     </header>
@@ -24,8 +25,11 @@
         <img src="header2.png" id="trans">
         <h6 id="orange">Rule 34: If it exists there is porn of it. If not, start uploading.</h6>
         <form id="searchForm">
-            <input type="text" id="tagsInput" placeholder="Entre tags">
+            <div class="search-container">
+            <input type="text" id="tagsInput" placeholder="Entre tags" autocomplete="off">
+            <ul id="suggestionsList"></ul>
             <button type="submit" onclick="changercouleur()">rechercher</button>
+            </div>
         </form>
     </header>
     
