@@ -1,4 +1,4 @@
-const apiUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index';
+const apiUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&api_key=&user_id=2828421';
 const tagsInput = document.getElementById('tagsInput');
 let currentPage = 1;
 
@@ -84,5 +84,6 @@ const topbar = document.getElementById('topbar');
 
 
     
+
 
 
