@@ -1,4 +1,4 @@
-const apiUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&api_key=19a43f599733ed5839198dd80d09224ac8913a7ff5177d10e0a8587d7cf3429000c907a0822f2bff523cdf040a378c39e65ac4e7cf3c768c8b6cdb174fda9a70&user_id=2828421';
+const apiUrl = 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index';
 const tagsInput = document.getElementById('tagsInput');
 let currentPage = 1;
 
@@ -84,6 +84,7 @@ const topbar = document.getElementById('topbar');
 
 
     
+
 
 
 
